@@ -7,6 +7,7 @@ typedef OnInputFormatted<T> = void Function(T value);
 class AsYouTypeFormatter extends TextInputFormatter {
   final RegExp separatorChars = RegExp(r'[^\d]+');
   final RegExp allowedChars = RegExp(r'[\d+]');
+  final RegExp allowOnlyNumbers = new RegExp(r"[^0-9]");
 
   final String isoCode;
   final String dialCode;
@@ -35,24 +36,13 @@ class AsYouTypeFormatter extends TextInputFormatter {
           String parsedText =
               value.replaceAll(RegExp('^([\\+?${this.dialCode}\\s?]+)'), '');
 
-          int offset = newValue.selection.baseOffset;
-
-          try {
-            if (separatorChars.hasMatch(parsedText[offset])) {
-              offset += 3;
-            } else {
-              offset += 1;
-            }
-          } on RangeError {}
-
-          if (parsedText.length < newValueText.length)
-            offset = parsedText.length;
-
           if (separatorChars.hasMatch(parsedText))
             this.onInputFormatted(
               TextEditingValue(
-                text: parsedText,
-                selection: TextSelection.collapsed(offset: offset),
+                text: parsedText.replaceAll(allowOnlyNumbers, ""),
+                selection: TextSelection(
+                    baseOffset: parsedText.length,
+                    extentOffset: parsedText.length),
               ),
             );
         },

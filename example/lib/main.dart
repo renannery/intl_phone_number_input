@@ -40,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             InternationalPhoneNumberInput(
+              selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
               onInputChanged: (PhoneNumber number) {
                 print(number.phoneNumber);
               },
@@ -60,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             RaisedButton(
               onPressed: () {
-                getPhoneNumber('+15417543010');
+                // getPhoneNumber('+15417543010');
               },
               child: Text('Update'),
             ),

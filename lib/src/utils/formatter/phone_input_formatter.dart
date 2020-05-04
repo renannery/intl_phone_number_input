@@ -35,7 +35,8 @@ class PhoneInputFormatter extends TextInputFormatter {
       newText.write(newValue.text.substring(usedSubstringIndex));
     return newValue.copyWith(
       text: newText.toString(),
-      selection: TextSelection.collapsed(offset: selectionIndex),
+      selection: TextSelection(
+          baseOffset: newText.length, extentOffset: newText.length),
     );
   }
 }
