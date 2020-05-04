@@ -23,41 +23,11 @@ class AsYouTypeFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {
-    int oldValueLength = oldValue.text.length;
-    int newValueLength = newValue.text.length;
-
-    if (newValueLength > 0 && newValueLength > oldValueLength) {
-      String newValueText = newValue.text;
-      String rawText = newValueText.replaceAll(separatorChars, '');
-      String textToParse = dialCode + rawText;
-
-      formatAsYouType(input: textToParse).then(
-        (String value) {
-          String parsedText =
-              value.replaceAll(RegExp('^([\\+?${this.dialCode}\\s?]+)'), '');
-
-          if (separatorChars.hasMatch(parsedText))
-            this.onInputFormatted(
-              TextEditingValue(
-                text: parsedText.replaceAll(allowOnlyNumbers, ""),
-                selection: TextSelection(
-                    baseOffset: parsedText.length,
-                    extentOffset: parsedText.length),
-              ),
-            );
-        },
-      );
-    }
     return newValue;
   }
 
-  Future<String> formatAsYouType({@required String input}) async {
-    try {
-      String formattedPhoneNumber = await PhoneNumberUtil.formatAsYouType(
-          phoneNumber: input, isoCode: isoCode);
-      return formattedPhoneNumber;
-    } on Exception {
-      return '';
-    }
+  String getCleanedNumber(String text) {
+    RegExp regExp = new RegExp(r"[^0-9]");
+    return text.replaceAll(regExp, '');
   }
 }

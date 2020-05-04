@@ -453,17 +453,7 @@ class _InputWidgetState extends State<_InputWidget> {
               },
               inputFormatters: [
                 LengthLimitingTextInputFormatter(15),
-                widget.autoFormatInput
-                    ? AsYouTypeFormatter(
-                        isoCode: provider.country?.countryCode ?? '',
-                        dialCode: provider.country?.dialCode ?? '',
-                        onInputFormatted: (TextEditingValue value) {
-                          setState(() {
-                            controller.value = value;
-                          });
-                        },
-                      )
-                    : WhitelistingTextInputFormatter.digitsOnly,
+                WhitelistingTextInputFormatter.digitsOnly,
               ],
               onChanged: (text) {
                 _phoneNumberControllerListener();
