@@ -51,7 +51,6 @@ class _MyHomePageState extends State<MyHomePage> {
               autoValidate: false,
               initialValue: number,
               textFieldController: controller,
-              inputBorder: OutlineInputBorder(),
             ),
             RaisedButton(
               onPressed: () {
